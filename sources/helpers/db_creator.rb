@@ -1,5 +1,9 @@
 require 'active_record'
 
+#todo: make it work with relative paths
+#todo: make it work with different databases
+#todo: refactor the usage
+
 ActiveRecord::Base.logger = Logger.new(STDERR)
 ActiveRecord::Base.colorize_logging = false
 
@@ -17,8 +21,11 @@ class DBManager
       create_table :entries, :primary_key=> 'id' do |table|
           table.column :title, :string
           table.column :content, :string
-          table.column :type,:string
+          table.column :ctype,:string  #this will be predefined: rss, mail, cl;
           table.column :tags, :string
+          table.column :added_at, :timestamp, :default => Time.now
+          table.column :served, :boolean, :default => false  #if the data had been served or not'
+          table.column :served_at, :timestamp #the date on which the data had been served
       end
     end
   end   
